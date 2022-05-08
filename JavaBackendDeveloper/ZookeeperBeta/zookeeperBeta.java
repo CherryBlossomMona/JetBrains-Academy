@@ -126,5 +126,29 @@ public class Main {
         String[] animals = {camel, lion, deer, goose, bat, rabbit};
 
         // write your code here
+        Scanner scanner = new Scanner(System.in);
+        int counter = 0;
+        do {
+            System.out.println("Please enter the number of the habitat you would like to view:");
+            String option = scanner.next();
+            if (option.equals("0")) {
+                System.out.println(camel);
+            } else if(option.equals("1")) {
+                System.out.println(lion);    
+            } else if(option.equals("2")) {
+                System.out.println(deer);    
+            } else if(option.equals("3")) {
+                System.out.println(goose);    
+            } else if(option.equals("4")) {
+                System.out.println(bat);    
+            } else if(option.equals("5")) {
+                System.out.println(rabbit);    
+            } else if(option.equals("exit")) {
+                counter = 1;    
+            }
+            System.out.println("See you later!");
+            
+        } while(counter == 0);
+         
     }
 }
