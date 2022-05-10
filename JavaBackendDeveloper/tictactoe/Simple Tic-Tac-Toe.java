@@ -6,85 +6,98 @@ public class Main {
     public static void main(String[] args) {
         // write your code here
         Scanner scanner = new Scanner(System.in);
-        String strings = scanner.next();
-        char[] symbols = new char[9];
+        char[][] symbols = new char[3][3];
+        boolean counter = true;
         boolean xWin = false;
         boolean oWin = false;
-        int x = 0;
-        int o = 0;
         int blank = 0;
-        int counter = 0;
-        int lineX = 0;
-        int lineO = 0;
+        int counter0 = 0;
+        int chessPiecesCounter = 2; 
 
         System.out.println("Enter cells: ");
         for (int i = 0; i < symbols.length; i++) {
-            symbols[i] = strings.charAt(i);
-            if (symbols[i] == 'X') {
-                x++;
-            } else if (symbols[i] == 'O') {
-                o++;
-            } else {
-                blank++;
+            for (int j = 0; j < symbols[i].length; j++) {
+                symbols[i][j] = ' ';
             }
         }
         
         System.out.println("---------");
-        System.out.println("| " + symbols[0] + " " + symbols[1] + " " + symbols[2] + " |");
-        System.out.println("| " + symbols[3] + " " + symbols[4] + " " + symbols[5] + " |");
-        System.out.println("| " + symbols[6] + " " + symbols[7] + " " + symbols[8] + " |");
+        System.out.println("| " + symbols[0][0] + " " + symbols[0][1] + " " + symbols[0][2] + " |");
+        System.out.println("| " + symbols[1][0] + " " + symbols[1][1] + " " + symbols[1][2] + " |");
+        System.out.println("| " + symbols[2][0] + " " + symbols[2][1] + " " + symbols[2][2] + " |");
         System.out.println("---------");
-        
-        for (int j = 0; j < symbols.length; j++) {
-            if (counter == 3) {
-              lineX = 0;
-              lineO = 0;
-              counter = 0;  
-            }
-                
-            if (symbols[j] == 'X') {
-                ++lineX;
-                if (lineX == 3) {
-                    xWin = true; 
+        while(counter) { 
+            int row = scanner.nextInt();
+            int list = scanner.nextInt();
+   
+
+            for (int k = 0; k < symbols.length; k++) {
+                for (int f = 0; f < symbols[k].length; f++) {
+                if (symbols[k][f] == ' ') {
+                    blank++;
+                }  
+ 
+                if (k == 0 && symbols[k][f] == 'X' && symbols[k + 1][f] == 'X' && symbols[k + 2][f] == 'X') {
+                    xWin = true;
                 }
-            }
             
-            if (symbols[j] == 'O') {
-                ++lineO;
-                if (lineO == 3) {
+                if (k == 0 && symbols[k][f] == 'O' && symbols[k + 1][f] == 'O' && symbols[k + 2][f] == 'O') {
                     oWin = true;
                 }
+            
+                if (f == 0 && symbols[k][f] == 'X' && symbols[k][f + 1] == 'X' && symbols[k][f + 2] == 'X') {
+                    xWin = true;
+                }
+            
+                if (f == 0 && symbols[k][f] == 'O' && symbols[k][f + 1] == 'O' && symbols[k][f + 2] == 'O') {
+                    oWin = true;
+                }
+            
+                if (k == 0 && f == 0 && symbols[k][f] == 'X' && symbols[k + 1][f + 1] == 'X' && symbols[k + 2][f + 2] == 'X' || k == 0 && f == 2 && symbols[k][f] == 'X' && symbols[Math.abs(k - 1)][Math.abs(f - 1)] == 'X' && symbols[Math.abs(k - 2)][Math.abs(f - 2)] == 'X') {
+                    xWin = true;
+                }
+            
+                if (k == 0 && f == 0 && symbols[k][f] == 'O' && symbols[k + 1][f + 1] == 'O' && symbols[k + 2][f + 2] == 'O' || k == 0 && f == 2 && symbols[k][f] == 'O' && symbols[Math.abs(k - 1)][Math.abs(f - 1)] == 'O' && symbols[Math.abs(k - 2)][Math.abs(f - 2)] == 'O') {
+                    oWin = true;
+                }   
+            }
             }
             
-            if (j < 3 && symbols[j] == 'X' && symbols[j + 3] == 'X' && symbols[j + 6] == 'X') {
-                xWin = true;
-            }
-            
-            if (j < 3 && symbols[j] == 'O' && symbols[j + 3] == 'O' && symbols[j + 6] == 'O') {
-                oWin = true;
-            }
-            
-            if (j == 0 && symbols[j] == 'X' && symbols[j + 4] == 'X' && symbols[j + 8] == 'X' || j == 2 && symbols[j] == 'X' && symbols[j + 2] == 'X' && symbols[j + 4] == 'X' && j == 2) {
-                xWin = true;
-            }
-            
-            if (j == 0 && symbols[j] == 'O' && symbols[j + 4] == 'O' && symbols[j + 8] == 'O' || j == 2 && symbols[j] == 'O' && symbols[j + 2] == 'O' && symbols[j + 4] == 'O' && j == 2) {
-                oWin = true;
-            }   
-            counter++;
-        }
-        
-        if (Math.abs(x - o) != 0 && Math.abs(x - o) != 1 || xWin == true && oWin == true) {
-            System.out.println("Impossible");
-        } else if (xWin) {
+             
+            if ( row <=3 && row >= 1 && list <= 3 && list >= 1 && symbols[Math.abs(row - 1)][Math.abs(list - 1)] != ' ') {
+                System.out.println("This cell is occupied! Choose another one!");
+            } else if (row <=3 && row >= 1 && list <= 3 && list >= 1) {
+                if (chessPiecesCounter % 2 == 0) {
+                   symbols[Math.abs(row - 1)][Math.abs(list - 1)] = 'X'; 
+                }
+                if (chessPiecesCounter % 2 != 0) {
+                   symbols[Math.abs(row - 1)][Math.abs(list - 1)] = 'O'; 
+                } 
+                System.out.println("---------");
+                System.out.println("| " + symbols[0][0] + " " + symbols[0][1] + " " + symbols[0][2] + " |");
+                System.out.println("| " + symbols[1][0] + " " + symbols[1][1] + " " + symbols[1][2] + " |");
+                System.out.println("| " + symbols[2][0] + " " + symbols[2][1] + " " + symbols[2][2] + " |");
+                System.out.println("---------");
+                chessPiecesCounter++;
+            } else if (row > 3 && row < 1 && list > 3 && list < 1) {
+                System.out.println("Coordinates should be from 1 to 3!");
+            } else {
+                System.out.println("You should enter numbers!");
+            } 
+        if (xWin) {
             System.out.println("X wins");
-        } else if (oWin) {
-            System.out.println("O wins");
-        } else if (blank != 0) {
-            System.out.println("Game not finished");
-        } else {
-            System.out.println("Draw");
-        }
-        
+            break;
+            } else if (oWin) {
+                System.out.println("O wins");
+                break;
+            } else {
+                if (blank == 0) {
+                    System.out.println("Draw");
+                     break;
+                }
+            }
+        blank = 0;
+        } 
+             
     }
 }
