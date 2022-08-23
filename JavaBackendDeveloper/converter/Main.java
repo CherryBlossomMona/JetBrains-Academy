@@ -1,5 +1,6 @@
 package converter;
 import java.util.Scanner;
+import java.math.BigInteger;
 
 public class Main {
 
@@ -7,54 +8,34 @@ public class Main {
         // write your code here
         Scanner scanner = new Scanner(System.in);
         boolean cycleControl = true;
+        boolean internalRecycle = true;
         do {
-            System.out.println("Do you want to convert /from decimal or /to decimal? (To quit type /exit)");
-            switch (scanner.next()) {
-                case "/from" -> {
-                    System.out.println("Enter number in decimal system: ");
-                    int number = scanner.nextInt();
-                    System.out.println("Enter target base: ");
-                    int decimal = scanner.nextInt();
-                    System.out.print("Conversion result: ");
-                    System.out.print(binHexOct(number, decimal));
-                    System.out.println();
-                }
-                case "/to" -> {
-                    System.out.println("Enter source number: ");
-                    String inputNumber = scanner.next();
-                    System.out.println("Enter source base:  ");
-                    int hexadecimalNumber = scanner.nextInt();
-                    System.out.print("Conversion to decimal result: ");
-                    System.out.print(binHexOct(inputNumber, hexadecimalNumber));
-                    System.out.println();
-                }
+            System.out.println("Enter two numbers in format: {source base} {target base} (To quit type /exit)");
+            String input = scanner.nextLine();
+            switch (input) {
                 case "/exit" -> {
                     cycleControl = false;
                 }
                 default -> {
+                    String[] inputArray = input.split(" ");
+                    do {
+                        System.out.println("Enter number in base " + inputArray[0] + " to convert to base " + inputArray[1] + " (To go back type /back)");
+                        String twoinput = scanner.nextLine();
+                        switch (twoinput) {
+                            case "/back" -> {
+                                internalRecycle = false;
+                            }
+                            default -> {
+                                String number1 = new BigInteger(twoinput, Integer.parseInt(inputArray[0])).toString();
+                                String number2 = new BigInteger(number1).toString(Integer.parseInt(inputArray[1])); 
+                                System.out.println("Conversion result: " +  number2);
+                            } 
+                        }    
+                    } while(internalRecycle);
+                    internalRecycle = true;
                 }
+
             }
         } while(cycleControl);
-    }
-    
-    public static String binHexOct(int number, int decimal) {
-        switch(decimal) {
-            case 2 -> {
-                return Integer.toBinaryString(number);       
-            }
-            case 8 -> {
-                return Integer.toOctalString(number);
-            }
-            case 16 -> {
-                return Integer.toHexString(number);
-            }
-            default -> {
-                return "invalid inputs.";
-            }
-        }
-    }
-
-    public static int binHexOct(String number, int decimal) {
-        return Integer.valueOf(number, decimal);
     }
 }
